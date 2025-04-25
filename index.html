@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="Dariels Martinez" />
+    <meta name="description"
+        content="Textor es una herramienta web para dar formato, limpiar y analizar textos con una interfaz limpia y moderna." />
+    <meta name="keywords"
+        content="Textor, formatear texto, contador de palabras, herramientas de texto, limpieza de texto, edición rápida, texto online" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#f9f9f9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Textor" />
+    <title>Formatear Textos</title>
+    <link href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet">
+    <script>
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+            if (
+                e.ctrlKey && ["u", "s", "c"].includes(e.key.toLowerCase()) ||
+                e.key === "F12"
+            ) {
+                e.preventDefault();
+            }
+        });
+
+    </script>
+    <style>
+        :root {
+            --bg: #f9f9f9;
+            --text: #1d1d1f;
+            --accent: #0071e3;
+            --light-border: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin-inline: auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            max-height: 400px;
+            padding: 16px;
+            font-size: 1rem;
+            line-height: 1.5;
+            border: 1px solid var(--light-border);
+            border-radius: 12px;
+            resize: none;
+            overflow-y: auto;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            margin-bottom: 1rem;
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat {
+            font-size: 0.95rem;
+        }
+
+        .section-title {
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            padding: 8px 14px;
+            font-size: 0.95rem;
+            background-color: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .input-group input {
+            padding: 8px;
+            font-size: 1rem;
+            border: 1px solid var(--light-border);
+            border-radius: 8px;
+            width: 100px;
+        }
+
+        .textarea-container {
+            position: relative;
+        }
+
+        .reset-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border: none;
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .reset-btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .ti {
+            font-size: 16px;
+            stroke-width: 1.5;
+            color: var(--text);
+        }
+
+        @media (max-width: 600px) {
+            .input-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Formatear Textos</h1>
+
+    <div class="textarea-container">
+        <textarea id="inputText" placeholder="Escribe tu texto aquí" oninput="autoResize(this)"></textarea>
+        <button class="reset-btn" onclick="resetText()">
+            <i class="ti ti-x"></i>
+        </button>
+    </div>
+
+    <div class="stats">
+        <div class="stat"><strong>Caracteres:</strong> <span id="charCount">0</span></div>
+        <div class="stat"><strong>Letras:</strong> <span id="letterCount">0</span></div>
+        <div class="stat"><strong>Palabras:</strong> <span id="wordCount">0</span></div>
+        <div class="stat"><strong>Párrafos:</strong> <span id="paragraphCount">0</span></div>
+    </div>
+
+    <div class="section-title">Transformar:</div>
+    <div class="button-group">
+        <button onclick="transformToLower()"><i class="ti ti-letter-case-lower"></i>Minúsculas</button>
+        <button onclick="transformToUpper()"><i class="ti ti-letter-case-upper"></i>Mayúsculas</button>
+        <button onclick="capitalizeText()"><i class="ti ti-text-caption"></i>Capitalizar</button>
+    </div>
+
+    <div class="section-title">Eliminar:</div>
+    <div class="button-group">
+        <button onclick="removeNumbers()"><i class="ti ti-numbers"></i>Números</button>
+        <button onclick="removeLetters()"><i class="ti ti-alphabet-latin"></i>Letras</button>
+        <button onclick="removeLineBreaks()"><i class="ti ti-text-wrap-disabled"></i>Saltos</button>
+        <button onclick="removeSpaces()"><i class="ti ti-space"></i>Espacios</button>
+        <button onclick="removeEmptyLines()"><i class="ti ti-align-box-bottom-center"></i>Líneas vacías</button>
+    </div>
+
+    <div class="input-group">
+        <label>Eliminar este caracter(es):</label>
+        <input type="text" id="customChar" maxlength="10" />
+        <button onclick="removeCustomChars()"><i class="ti ti-eraser"></i>Eliminar</button>
+    </div>
+
+    <div class="section-title">Probar:</div>
+    <div class="button-group">
+        <button onclick="addLorem()"><i class="ti ti-article"></i>Lorem Ipsum</button>
+        <button onclick="resetText()"><i class="ti ti-refresh"></i>Restablecer</button>
+    </div>
+
+    <script>
+        const input = document.getElementById("inputText");
+
+        input.addEventListener("input", updateCounts);
+
+        function autoResize(el) {
+            el.style.height = 'auto';
+            el.style.height = Math.min(el.scrollHeight, 400) + 'px';
+        }
+
+        function updateCounts() {
+            const text = input.value;
+            document.getElementById("charCount").textContent = text.length;
+            document.getElementById("letterCount").textContent = (text.match(/[a-zA-ZáéíóúÁÉÍÓÚñÑ]/g) || []).length;
+            document.getElementById("wordCount").textContent = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+            document.getElementById("paragraphCount").textContent = text.split(/\n+/).filter(p => p.trim() !== "").length;
+        }
+
+        function transformToLower() {
+            input.value = input.value.toLowerCase();
+            updateCounts();
+            autoResize(input);
+        }
+
+        function transformToUpper() {
+            input.value = input.value.toUpperCase();
+            updateCounts();
+            autoResize(input);
+        }
+
+        function capitalizeText() {
+            input.value = input.value
+                .toLowerCase()
+                .replace(/\b\w/g, c => c.toUpperCase());
+            updateCounts();
+            autoResize(input);
+        }
+
+        function removeNumbers() {
+            input.value = input.value.replace(/[0-9]/g, "");
+            updateCounts();
+            autoResize(input);
+        }
+
+        function removeLetters() {
+            input.value = input.value.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑ]/g, "");
+            updateCounts();
+            autoResize(input);
+        }
+
+        function removeLineBreaks() {
+            input.value = input.value.replace(/\n/g, "");
+            updateCounts();
+            autoResize(input);
+        }
+
+        function removeSpaces() {
+            input.value = input.value.replace(/ /g, "");
+            updateCounts();
+            autoResize(input);
+        }
+
+        function removeEmptyLines() {
+            input.value = input.value
+                .split("\n")
+                .filter(line => line.trim() !== "")
+                .join("\n");
+            updateCounts();
+            autoResize(input);
+        }
+
+        function removeCustomChars() {
+            const chars = document.getElementById("customChar").value;
+            if (chars) {
+                const pattern = new RegExp("[" + chars.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&") + "]", "g");
+                input.value = input.value.replace(pattern, "");
+                updateCounts();
+                autoResize(input);
+            }
+        }
+
+        function addLorem() {
+            const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+            input.value += (input.value.trim() ? "\n\n" : "") + lorem;
+            updateCounts();
+            autoResize(input);
+        }
+
+        function resetText() {
+            input.value = "";
+            updateCounts();
+            autoResize(input);
+        }
+
+        updateCounts();
+    </script>
+</body>
+
+</html>
