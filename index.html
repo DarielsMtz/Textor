@@ -162,6 +162,14 @@
             color: var(--text);
         }
 
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding: 1rem;
+            color: #888;
+            font-size: 14px;
+        }
+
         @media (max-width: 600px) {
             .input-group {
                 flex-direction: column;
@@ -216,6 +224,11 @@
         <button onclick="addLorem()"><i class="ti ti-article"></i>Lorem Ipsum</button>
         <button onclick="resetText()"><i class="ti ti-refresh"></i>Restablecer</button>
     </div>
+
+
+    <footer>
+        © 2025 Textor. Todos los derechos reservados.
+    </footer>
 
     <script>
         const input = document.getElementById("inputText");
