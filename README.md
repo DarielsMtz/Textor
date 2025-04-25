@@ -51,5 +51,3 @@ MIT License – Puedes usar, modificar y compartir este proyecto libremente.
 Desarrollado con 💻 y ☕ por @DarielsMtz
 
 ---
-
-¿Quieres que te lo prepare también como archivo `.md` descargable o te gustaría que le agregue una sección de vista previa en vivo (demo)?
