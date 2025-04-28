@@ -20,9 +20,6 @@
     <meta name="apple-mobile-web-app-title" content="Textor" />
     <title>Formatear Textos</title>
     <link rel="stylesheet" href="css/style.css" />
-    <link
-      href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css"
-      rel="stylesheet" />
     <script>
       document.addEventListener("contextmenu", (e) => e.preventDefault());
       document.addEventListener("keydown", (e) => {
@@ -44,8 +41,26 @@
         id="inputText"
         placeholder="Escribe tu texto aquí"
         oninput="autoResize(this)"></textarea>
-      <button class="reset-btn" onclick="resetText()">
-        <i class="ti ti-x"></i>
+      <button
+        class="reset-btn"
+        onclick="resetText()"
+        title="Restablecer"
+        aria-label="Restablecer">
+        <svg
+          class="icon refresh"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+          <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+        </svg>
       </button>
     </div>
 
@@ -66,44 +81,50 @@
 
     <div class="section-title">Transformar:</div>
     <div class="button-group">
-      <button onclick="transformToLower()">
-        <i class="ti ti-letter-case-lower"></i>Minúsculas
-      </button>
-      <button onclick="transformToUpper()">
-        <i class="ti ti-letter-case-upper"></i>Mayúsculas
-      </button>
-      <button onclick="capitalizeText()">
-        <i class="ti ti-text-caption"></i>Capitalizar
-      </button>
+      <button onclick="transformToLower()">Minúsculas</button>
+      <button onclick="transformToUpper()">Mayúsculas</button>
+      <button onclick="capitalizeText()">Capitalizar</button>
     </div>
 
     <div class="section-title">Eliminar:</div>
     <div class="button-group">
-      <button onclick="removeNumbers()">
-        <i class="ti ti-numbers"></i>Números
-      </button>
-      <button onclick="removeLetters()">
-        <i class="ti ti-alphabet-latin"></i>Letras
-      </button>
-      <button onclick="removeLineBreaks()">
-        <i class="ti ti-text-wrap-disabled"></i>Saltos
-      </button>
-      <button onclick="removeSpaces()">
-        <i class="ti ti-space"></i>Espacios
-      </button>
-      <button onclick="removeEmptyLines()">
-        <i class="ti ti-align-box-bottom-center"></i>Líneas vacías
-      </button>
+      <button onclick="removeNumbers()">Números</button>
+      <button onclick="removeLetters()">Letras</button>
+      <button onclick="removeLineBreaks()">Saltos</button>
+      <button onclick="removeSpaces()">Espacios</button>
+      <button onclick="removeEmptyLines()">Líneas vacías</button>
     </div>
 
     <div class="input-group">
       <label>Eliminar este caracter(es):</label>
       <input type="text" id="customChar" maxlength="10" />
-      <button onclick="removeCustomChars()">
-        <i class="ti ti-eraser"></i>Eliminar
+      <button
+        onclick="removeCustomChars()"
+        class="remove-btn"
+        title="Eliminar"
+        aria-label="Eliminar">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M4 7l16 0" />
+          <path d="M10 11l0 6" />
+          <path d="M14 11l0 6" />
+          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+          <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+        </svg>
       </button>
     </div>
 
+    <!--
     <div class="section-title">Probar:</div>
     <div class="button-group">
       <button onclick="addLorem()">
@@ -113,6 +134,7 @@
         <i class="ti ti-refresh"></i>Restablecer
       </button>
     </div>
+    -->
 
     <footer>© 2025 Textor. Todos los derechos reservados.</footer>
     <script src="js/app.js"></script>
